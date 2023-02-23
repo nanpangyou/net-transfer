@@ -4,8 +4,8 @@ import {
   Form,
   showUploadingDialog,
   showUploadFileSuccessDialog,
-  uploadFile,
-} from "../../pages/home/components";
+  uploadFile
+} from "./components";
 import { AppContext } from "../../shared/app_context";
 export const UploadScreenshotForm = () => {
   const context = useContext(AppContext);
@@ -13,19 +13,23 @@ export const UploadScreenshotForm = () => {
     if (!file) return;
     const type = file.type || "unknown";
     showUploadingDialog();
-    const { data: { url } } = await uploadFile(file);
+    const {
+      data: { url }
+    } = await uploadFile(file);
     showUploadFileSuccessDialog({
       context,
       content: (addr) =>
         addr &&
         `http://${addr}:27149/static/downloads?type=${type}&url=${encodeURIComponent(
           `http://${addr}:27149${url}`
-        )}`,
+        )}`
     });
-  }
+  };
   const onPaste = (e) => {
-    const { items: [item] } = e.clipboardData;
-    _uploadFile(item?.getAsFile())
+    const {
+      items: [item]
+    } = e.clipboardData;
+    _uploadFile(item?.getAsFile());
   };
   useEffect(() => {
     window.addEventListener("paste", onPaste);
@@ -34,7 +38,7 @@ export const UploadScreenshotForm = () => {
     };
   }, []);
   const onChange = async (e) => {
-    _uploadFile(e.target?.files?.[0])
+    _uploadFile(e.target?.files?.[0]);
   };
   return (
     <Form className="uploadForm">
@@ -57,10 +61,21 @@ const Box = styled.div`
     border-color: ${({ theme }) => theme.highlightColor};
     color: ${({ theme }) => theme.highlightColor};
   }
-  min-height: 160px; border: 2px dashed ${({ theme }) => theme.borderColor}; 
-  position: relative; overflow: hidden; display: flex; justify-content: center; align-items: center; border-radius: 8px;
+  min-height: 160px;
+  border: 2px dashed ${({ theme }) => theme.borderColor};
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
 `;
 const FileInput = styled.input`
-  position: absolute; right: 0; top: 0; width: 100%; height: 100%;
-  opacity: 0; cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
 `;
